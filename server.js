@@ -208,10 +208,7 @@ app.get("/sql/prescriptions/:id/file", requireAuth, async (req, res) => {
     }
     res.setHeader("Content-Type", row.file_mime || "application/octet-stream");
     res.setHeader("Content-Disposition", `inline; filename="${row.file_name || "file"}"`);
-    res.send(Buffer.from(row.file_data));
-  } else {
-    res.status(404).end();
-  }
+    return res.send(Buffer.from(row.file_data));
   } catch (e) {
     console.error("prescription file error:", e);
     res.status(500).json({ ok: false, error: "Failed to fetch file" });
